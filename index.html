@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Civic Eye – Report civic problems in Mumbai</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- ---------- HTML: structure ---------- -->
+<header>
+  <div class="bar">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M2 20C8 9 32 9 38 20 32 31 8 31 2 20Z" fill="none" stroke="#F2B705" stroke-width="3"/><circle cx="20" cy="20" r="6" fill="#F2B705"/></svg>
+      Civic Eye
+    </div>
+    <nav aria-label="Main">
+      <button class="on" data-v="report">Report</button>
+      <button data-v="track">Track</button>
+      <a class="adminlink" href="/admin">Admin</a>
+    </nav>
+  </div>
+  <div class="hero"><div>
+    <h1>See a problem? Show it to the city.</h1>
+    <p>Upload a photo and share the location. Our admin team checks it and sends it to the right BMC department.</p>
+    <div class="stats">
+      <div><b id="sTotal">0</b><span>reports filed</span></div>
+      <div><b id="sOpen">0</b><span>waiting for action</span></div>
+      <div><b id="sDone">0</b><span>resolved</span></div>
+    </div>
+  </div></div>
+</header>
+
+<main>
+  <!-- REPORT -->
+  <section class="panel view on" id="report">
+    <div id="formBox">
+      <h2>Upload a photo of the problem</h2>
+      <p class="sub">Just add a photo and the location. The admin will decide which BMC department handles it.</p>
+      <form id="form" novalidate>
+        <div>
+          <label>Photo *</label>
+          <div class="photo" id="photoBox" tabindex="0" role="button">
+            <span id="photoText">Tap to take or choose a photo</span><br>
+            <img id="preview" alt="Preview of the uploaded photo">
+          </div>
+          <input type="file" id="file" accept="image/*" hidden>
+          <div style="margin-top:10px"><button type="button" class="btn line" id="camBtn">Open camera</button></div>
+          <div id="camBox" style="display:none;margin-top:10px">
+            <video id="vid" autoplay playsinline muted style="width:100%;max-height:320px;border-radius:8px;background:#000"></video>
+            <div style="margin-top:8px;display:flex;gap:10px"><button type="button" class="btn go" id="snap">Capture photo</button><button type="button" class="btn line" id="camClose">Cancel</button></div>
+          </div>
+        </div>
+        <div>
+          <label for="addr">Location *</label>
+          <div class="search">
+            <input id="addr" placeholder="Street, landmark, or use GPS">
+            <button type="button" class="btn line" id="gps">Use my location</button>
+          </div>
+          <div class="hint" id="gpsNote"></div>
+        </div>
+        <div class="err" id="err" role="alert"></div>
+        <button class="btn go" type="submit">Send report to BMC</button>
+      </form>
+    </div>
+    <div class="done" id="done">
+      <h2>Report sent</h2>
+      <div class="id" id="doneId"></div>
+      <p id="doneMsg"></p>
+      <p class="hint">Save this ID. You can use it on the Track page.</p>
+      <br><button class="btn" id="again">Report another problem</button>
+    </div>
+  </section>
+
+  <!-- TRACK -->
+  <section class="panel view" id="track">
+    <h2>Track your report</h2>
+    <p class="sub">Enter the complaint ID you received after submitting your report.</p>
+    <div class="search">
+      <input id="q" placeholder="Example: CE-1042">
+      <button class="btn" id="find">Search</button>
+    </div>
+    <div class="list" id="trackList"></div>
+  </section>
+
+</main>
+<footer>Civic Eye · Field Project, S.Y.B.Sc. IT · Reports are stored in the SQLite database through the Flask backend.</footer>
+
+<!-- ---------- JavaScript: behaviour ---------- -->
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
